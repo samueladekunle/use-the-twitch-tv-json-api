@@ -16,70 +16,14 @@ import "milligram/dist/milligram.min.css";
 // Import Custom css.
 import "./css/custom/style.css";
 
-// The list of streamers given.
-const streamers = [ "freecodecamp", "ESL_SC2", "OgamingSC2", "cretetion", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas" ];
+// Import the Header component.
+import Header from "./components/Header";
 
-// The title of the page.
-const Title = () => (
-  <h1>Twitch Streamers</h1>
-);
+// Import the Table component.
+import Table, { TableRow } from "./components/Table";
 
-// The form filter.
-const Filter = () => (
-  <form>
-    <label htmlFor="filter">Filter</label>
-    <select id="filter">
-      <option value="all">All</option>
-      <option value="offline">Offline</option>
-      <option value="online">Online</option>
-    </select>
-  </form>
-);
-
-// The Header component.
-const Header = () => (
-  <header className="row">
-    <div className="column">
-      <Title />
-    </div>
-    <div className="column">
-      <Filter />
-    </div>
-  </header>
-);
-
-
-// The heading of the table.
-const TableHead = () => (
-  <thead>
-    <tr>
-      <th>Streamer</th>
-      <th>Status</th>
-    </tr>
-  </thead>
-);
-
-// The row of the table.
-const TableRow = props => (
-  <tr key={props.streamer}>
-    <td> { props.streamer } </td>
-    <td> { props.status } </td>
-  </tr>
-);
-
-// The Table Component.
-const Table = props => (
-  <div className="row">
-    <div className="column">
-      <table>
-        <TableHead />
-        <tbody>
-          { props.rows }
-        </tbody>
-      </table>
-    </div>
-  </div>
-);
+// Import the list of streamers.
+import streamers from "./data/Streamers.js";
 
 export default class App extends Component {
   constructor(props) {
