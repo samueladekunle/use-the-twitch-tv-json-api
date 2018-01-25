@@ -37,6 +37,9 @@ export default class App extends Component {
     // Bind the callJSONP instance method to this.
     this.callJSONP = this.callJSONP.bind(this);
 
+    // Bind this to the filterStreamers() method.
+    this.filterStreamers = this.filterStreamers.bind(this);
+
     // Populate the this.state.stream array
     // withe the details of streamers fetched
     // from the Twitch.tv API.
@@ -66,13 +69,16 @@ export default class App extends Component {
       }
     });
   }
+  filterStreamers(event) {
+    console.log(event.target.value);
+  }
   render() {
     const stream = this.state.stream;
     const rows = stream.map(TableRow);
 
     return (
       <div className="container">
-        <Header />
+        <Header filter={ this.filterStreamers } />
         <Table rows={ rows } />
       </div>
     );

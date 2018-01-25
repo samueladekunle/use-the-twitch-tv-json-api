@@ -6,10 +6,10 @@ const Title = () => (
 );
 
 // The form filter.
-const Filter = () => (
+const Filter = props => (
   <form>
     <label htmlFor="filter">Filter</label>
-    <select id="filter">
+    <select id="filter" onChange={ props.filter } >
       <option value="all">All</option>
       <option value="offline">Offline</option>
       <option value="online">Online</option>
@@ -18,13 +18,13 @@ const Filter = () => (
 );
 
 // The Header component.
-const Header = () => (
+const Header = props => (
   <header className="row">
     <div className="column">
       <Title />
     </div>
     <div className="column">
-      <Filter />
+      <Filter filter={ props.filter } />
     </div>
   </header>
 );
