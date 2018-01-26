@@ -6,15 +6,19 @@ const TableHead = () => (
     <tr>
       <th>Streamer</th>
       <th>Status</th>
+      <th>Activity</th>
     </tr>
   </thead>
 );
 
+const formatStreamer = streamer => ( <a href={ `https://www.twitch.tv/${streamer.toLowerCase()}` } target="_blank"> { streamer } </a> );
+
 // The row of the table.
 const TableRow = props => (
-  <tr key={props.streamer}>
-    <td> { props.streamer } </td>
+  <tr key={props.streamer} className={ props.status === "Online" ? "online" : "offline" }>
+    <td> { formatStreamer( props.streamer ) } </td>
     <td> { props.status } </td>
+    <td> { props.activity } </td>
   </tr>
 );
 

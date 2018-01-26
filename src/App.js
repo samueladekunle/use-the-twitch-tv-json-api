@@ -31,7 +31,8 @@ export default class App extends Component {
 
     // Initialise the state object.
     this.state = {
-      stream: []
+      stream: [],
+      tableRows: []
     };
 
     // Bind the callJSONP instance method to this.
@@ -46,9 +47,10 @@ export default class App extends Component {
     streamers.forEach(this.callJSONP);
   }
   callJSONP(streamer) {
-  // The Twitch.tv JSON API workaround provided by freeCodeCamp.
+    // The Twitch.tv JSON API workaround provided by freeCodeCamp.
     const api = `https://wind-bow.glitch.me/twitch-api/streams/${streamer}`;
     let status = "Not Exist";
+    let activity = "Not Exist";
     
     jsonp(api, (err, data) => {
       try {
@@ -57,12 +59,17 @@ export default class App extends Component {
         }
 
         if ( data.hasOwnProperty("stream") ) {
-          status = data["stream"] ? `${data["stream"]["game"]}: ${data["stream"]["channel"]["status"]}` : "Offline";
+          status = data["stream"] ? "Online" : "Offline";
+          activity = data["stream"] ? `${data["stream"]["game"]}: ${data["stream"]["channel"]["status"]}` : "None";
         }
 
         const stream = this.state.stream;
-        stream.push( { streamer, status } );
-        this.setState( { stream } );
+        stream.push( { streamer, status, activity } );
+
+        const tableRows = this.state.tableRows;
+        tableRows.push( { streamer, status, activity } );
+
+        this.setState( { stream, tableRows } );
 
       } catch(err) {
         console.log(err.message);
@@ -70,11 +77,26 @@ export default class App extends Component {
     });
   }
   filterStreamers(event) {
-    console.log(event.target.value);
+    // Get the value of the Filter field.
+    const status = event.target.value;
+
+    // Get the list of all streamers from this.state.stream.
+    let rows = this.state.stream;
+
+    if ( status === "online" ) {
+      // Filter out streamers that are online.
+      rows = rows.filter( row => row.status === "Online" );
+    } else if ( status === "offline" ) {
+      // Filter out streamers that are offline.
+      rows = rows.filter( row => row.status === "Offline" );
+    }
+
+    console.log(rows);
+    this.setState( { tableRows: rows} );
   }
   render() {
-    const stream = this.state.stream;
-    const rows = stream.map(TableRow);
+    const tableRows = this.state.tableRows;
+    const rows = tableRows.map(TableRow);
 
     return (
       <div className="container">
